@@ -44,8 +44,16 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public boolean add(T element) {
-		// TODO: FILL THIS IN!
-		return false;
+		// TODO: FILL THIS IN! // 완료
+		if (size >= array.length) {
+			//큰 배열을 만들고 요소들을 복사합니다.
+			T[] bigger = (T[]) new Object[array.length * 2];
+			System.arraycopy(array, 0, bigger, 0, array.length);
+			array = bigger;
+		}
+		array[size] = element;
+		size++;
+		return true;
 	}
 
 	@Override
@@ -110,7 +118,25 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public int indexOf(Object target) {
-		// TODO: FILL THIS IN!
+		// TODO: FILL THIS IN! //완료 - List 주석 참고
+		//null 처리에 신경을 쓰라고 함
+		for (int i = 0; i < size; i++) {
+			if (target == null ? get(i)==null : target.equals(get(i))) {
+				return i;
+				//interface List에 있는 indexOf 관련 조건문 그대로 가져다 씀
+				//단순하게 target.equals(get(i)) 이런식으로 쓰면 바로 예외 터지게 테스트 설계되어있음
+				//또 get(i).equals(target) 이런 식으로 순서 바뀌면 예외 터질 수 있음
+				//-> get(i)가 null이 아닌 것은 보장이 안 되어있으므로
+			}
+			/*
+			* 아래 만들어 놓은 equals 메소드 이용해서
+			* if (equals(target, array[i])) {
+				return i;
+			* }
+			* 이런 식으로 해결할 수도 있음
+			* */
+			// java.util에서는 null일 때와 아닐 때 if ~ else로 나눠서 구현함
+		}
 		return -1;
 	}
 
@@ -119,7 +145,7 @@ public class MyArrayList<T> implements List<T> {
 	 * Handles the special case that the target is null.
 	 *
 	 * @param target
-	 * @param object
+	 * @param element // object로 되어있던 거 에러 있어서 element로 바꿈
 	 */
 	private boolean equals(Object target, Object element) {
 		if (target == null) {
@@ -181,8 +207,15 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T remove(int index) {
-		// TODO: FILL THIS IN!
-		return null;
+		// TODO: FILL THIS IN! // 완료
+//		T old = get(index);
+		T element = get(index);
+		for (int i = index + 1; i < size; i++) {
+			array[i - 1] = array[i];
+		}
+//		size = size - 1;
+		size--;
+		return element;
 	}
 
 	@Override
@@ -201,8 +234,15 @@ public class MyArrayList<T> implements List<T> {
 
 	@Override
 	public T set(int index, T element) {
-		// TODO: FILL THIS IN!
-		return null;
+		// TODO: FILL THIS IN! //완료
+//		if (index < 0 || index >= size) { //인덱스 검사 코드 반복 피하려면??
+//			throw new IndexOutOfBoundsException();
+//		}
+//		T prevElement = array[index];
+		T old = get(index); // old를 꺼내오는 작업과 인덱스 검사하는 코드를 한 번에 해결함
+		array[index] = element;
+//		return prevElement;
+		return old;
 	}
 
 	@Override
