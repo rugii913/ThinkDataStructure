@@ -3,11 +3,7 @@
  */
 package com.allendowney.thinkdast;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 /**
  * @author downey
@@ -83,6 +79,14 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int index, E element) {
 		//TODO: FILL THIS IN!
+		size++;
+		if (index == 0) {
+			this.head = new Node(element, head);
+			return;
+		}
+		Node prevNode = getNode(index - 1);
+		Node nextNode = getNode(index);
+		prevNode.next = new Node(element, nextNode);
 	}
 
 	@Override
@@ -143,7 +147,12 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		//TODO: FILL THIS IN!
+		//TODO: FILL THIS IN! //완료
+		for (int i = 0; i < this.size; i++) {
+			if (target == null ? get(i) == null : target.equals(get(i))) {
+				return i;
+			}
+		}
 		return -1;
 	}
 
@@ -152,7 +161,7 @@ public class MyLinkedList<E> implements List<E> {
 	 * Handles the special case that the target is null.
 	 *
 	 * @param target
-	 * @param object
+	 * @param element
 	 */
 	private boolean equals(Object target, Object element) {
 		if (target == null) {
@@ -208,8 +217,33 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public E remove(int index) {
-		//TODO: FILL THIS IN!
-		return null;
+		//TODO: FILL THIS IN! // 일단 테스트는 통과, 어려움
+// 솔루션 코드 보기 전 통과 코드
+//		size--;
+//		if (index == 0) {
+//			Node prevHead = this.head;
+//			Node newHead = this.head.next;
+//			if (size > 0) {
+//				this.head = newHead;
+//			}
+//			return prevHead.data;
+//		}
+//		Node prevNode = getNode(index - 1);
+//		Node nodeToBeRemoved = getNode(index);
+//		prevNode.next = nodeToBeRemoved.next;
+//
+//		nodeToBeRemoved.next = null;
+//		return nodeToBeRemoved.data;
+		E element = get(index);
+		if (index == 0) {
+			head = head.next;
+		} else {
+			Node node = getNode(index -1);
+			node.next = node.next.next;
+		}
+		size--;
+		return element;
+		//JCF의 LinkedList와는 많이 다르게 구현되어 있음
 	}
 
 	@Override
