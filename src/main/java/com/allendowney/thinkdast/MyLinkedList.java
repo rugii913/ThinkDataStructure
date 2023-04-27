@@ -148,10 +148,18 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		//TODO: FILL THIS IN! //완료
-		for (int i = 0; i < this.size; i++) {
-			if (target == null ? get(i) == null : target.equals(get(i))) {
+		//직접 작성한 코드
+//		for (int i = 0; i < this.size; i++) {
+//			if (target == null ? get(i) == null : target.equals(get(i))) {
+//				return i;
+//			}
+//		}
+		Node node = head;
+		for (int i = 0; i < size; i++) {
+			if (equals(target, node.data)) {
 				return i;
 			}
+			node = node.next;
 		}
 		return -1;
 	}
