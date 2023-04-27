@@ -79,14 +79,23 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int index, E element) {
 		//TODO: FILL THIS IN!
-		size++;
+		//직접 작성한 코드
+//		size++;
+//		if (index == 0) {
+//			this.head = new Node(element, head);
+//			return;
+//		}
+//		Node prevNode = getNode(index - 1);
+//		Node nextNode = getNode(index);
+//		prevNode.next = new Node(element, nextNode);
 		if (index == 0) {
-			this.head = new Node(element, head);
-			return;
+			head = new Node(element, head);
+		} else {
+			Node node = getNode(index -1 );
+			node.next = new Node(element, node.next);
 		}
-		Node prevNode = getNode(index - 1);
-		Node nextNode = getNode(index);
-		prevNode.next = new Node(element, nextNode);
+		size++;
+
 	}
 
 	@Override
@@ -251,7 +260,8 @@ public class MyLinkedList<E> implements List<E> {
 		}
 		size--;
 		return element;
-		//JCF의 LinkedList와는 많이 다르게 구현되어 있음
+		//JCF의 LinkedList와는 많이 다르게 구현되어 있음, JCF의 LinkedList는 사실 doubly linked list라고 봐야하고,
+		//remove는 unlink()메소드를 이용하여 구현함
 	}
 
 	@Override
